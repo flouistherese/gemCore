@@ -6,9 +6,14 @@ from gemUtils.utils import default_dated_directory
 
 
 class TradingEnvironment:
+	accounts = pd.DataFrame()
 	strategies = pd.DataFrame()
 	trading_models = pd.DataFrame()
 	model_feeds = pd.DataFrame()
+	target_instruments = pd.DataFrame()
+	model_limits = pd.DataFrame()
+	sector_limits = pd.DataFrame()
+	asset_limits = pd.DataFrame()
 	
 	@staticmethod
 	def load(date_directory = date.today(), file_path = None):

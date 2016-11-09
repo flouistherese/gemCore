@@ -6,4 +6,4 @@ from gemTrading.momentum import Momentum
 market_env = MarketEnvironment.load()
 trading_env = TradingEnvironment.load()
 
-mom = Momentum(trading_env)
+mom = Momentum(market_env, trading_env)

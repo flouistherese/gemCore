@@ -15,4 +15,6 @@ mom.update_parameters(trading_env)
 mom.run()
 mom.apply_gearing()
 
+#Read current positions (in lots) from file/DB
+
 create_orders(mom.geared_positions, pd.DataFrame(), trading_env, market_env, orders_date = date.today() - timedelta(days = 1))

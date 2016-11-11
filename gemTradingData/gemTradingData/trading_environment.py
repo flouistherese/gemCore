@@ -6,6 +6,7 @@ from gemUtils.utils import default_dated_directory
 
 
 class TradingEnvironment:
+	#Accounts
 	accounts = pd.DataFrame()
 
 	#Models
@@ -43,5 +44,7 @@ class TradingEnvironment:
 		gearings = gearings.merge(self.strategy_types_weights, on = ['account_group','strategy_type'])
 		gearings = gearings.merge(self.strategy_gearings, on = ['account_group','strategy_type'])
 		gearings = gearings.merge(self.strategy_weights, on = ['account_group','strategy_type', 'strategy'])
-		gearings['gearing'] = gearings['portfolio_gearing'] * gearings['strategy_types_gearing'] * gearings['strategy_gearing'] * gearings['strategy_types_weight'] * gearings['strategy_weight']
-		return gearings[['account_group', 'strategy_type', 'strategy', 'gearing']]
+		gearings = gearings.merge(self.model_weights, on = ['account_group','strategy'])
+		gearings['gearing'] = gearings['portfolio_gearing'] * gearings['strategy_types_gearing'] * gearings['strategy_gearing'] * gearings['strategy_types_weight'] * gearings['strategy_weight'] * gearings['model_weight']
+		gearings['gearing'] = gearings['gearing'].astype('float64')
+		return gearings[['account_group', 'strategy_type', 'strategy', 'trading_model', 'gearing']]

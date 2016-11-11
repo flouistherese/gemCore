@@ -3,24 +3,12 @@ import pandas as pd
 import numpy as np
 from datetime import date
 from datetime import timedelta
+
 from gemTradingData.trading_environment import TradingEnvironment
 import pdb
 
 class Momentum(Strategy):
-	#Models
-	strategy_type = None
-	models = list()
-	model_feeds = pd.DataFrame()
-
-	#Market Data
-	price_data = pd.DataFrame()
-
-	#Gearings
-	gearings = pd.DataFrame()
-
-	#Positions
-	raw_positions = pd.DataFrame()
-	geared_positions = pd.DataFrame()
+	
 
 	def __init__(self, market_env, trading_env):
 		self.strategy_type = 'MOMENTUM'
@@ -33,21 +21,26 @@ class Momentum(Strategy):
 		self.price_data = market_env.feed_data[market_env.feed_data['feed'].isin(self.model_feeds['feed'])]
 
 	def update_parameters(self,trading_env):
-		pdb.set_trace()
 		self.gearings = trading_env.extract_gearing()
 
 	def run(self):
-		dates = self.price_data['date'].copy()
+		dates = self.price_data['date'].drop_duplicates().copy()
 		dates.sort_values(inplace=True)
-		self.raw_positions = pd.DataFrame(dates)
-		self.raw_positions['account_group'] = 'MAIN'
-		self.raw_positions['trading_model'] = 'ENERGY_MOM_CL'
-		self.raw_positions['feed'] = 'CL1'
-		self.raw_positions['unit'] = 'USD'
-		self.raw_positions['position'] = pd.Series(np.random.randn(len(self.raw_positions))) * 100
-		pdb.set_trace()
+		raw_positions1 = pd.DataFrame(dates)
+		raw_positions1['account_group'] = 'MAIN'
+		raw_positions1['trading_model'] = 'ENERGY_MOM_CL'
+		raw_positions1['feed'] = 'CL1'
+		raw_positions1['unit'] = 'USD'
+		raw_positions1['position'] = pd.Series(np.random.randn(len(raw_positions1))) * 100
+		raw_positions2 = pd.DataFrame(dates)
+		raw_positions2['account_group'] = 'MAIN'
+		raw_positions2['trading_model'] = 'BOND_MOM_TY'
+		raw_positions2['feed'] = 'TY1'
+		raw_positions2['unit'] = 'USD'
+		raw_positions2['position'] = pd.Series(np.random.randn(len(raw_positions2))) * 100
 
-		self.geared_positions = self.raw_positions * 2000
+		self.raw_positions = pd.concat([raw_positions1, raw_positions2])
+		pdb.set_trace()
 
 
 

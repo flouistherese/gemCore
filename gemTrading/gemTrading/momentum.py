@@ -49,8 +49,14 @@ class Momentum(Strategy):
 		raw_positions3['feed'] = 'GBPUSD'
 		raw_positions3['unit'] = 'USD'
 		raw_positions3['position'] = pd.Series(np.random.randn(len(raw_positions3))) * 100
+		raw_positions4 = pd.DataFrame(dates)
+		raw_positions4['account_group'] = 'MAIN'
+		raw_positions4['trading_model'] = 'ENERGY_MOM_NG'
+		raw_positions4['feed'] = 'NG1'
+		raw_positions4['unit'] = 'USD'
+		raw_positions4['position'] = pd.Series(np.random.randn(len(raw_positions4))) * 100
 
-		self.raw_positions = pd.concat([raw_positions1, raw_positions2, raw_positions3])
+		self.raw_positions = pd.concat([raw_positions1, raw_positions2, raw_positions3, raw_positions4])
 		pdb.set_trace()
 
 

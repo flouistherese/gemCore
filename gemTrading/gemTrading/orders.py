@@ -9,7 +9,7 @@ def create_orders(target_positions, current_positions, trading_env, market_env, 
 	target_positions = scale_positions_to_capital(target_positions, trading_env.accounts)
 	target_positions = add_target_instruments(target_positions, trading_env.target_instruments)
 
-	target_positions = apply_limits(target_positions, trading_env)
+	target_positions = apply_limits(target_positions, market_env, trading_env)
 	#TODO: Apply limits
 	#Convert target pos from pos to Market
 	target_positions = convert_units(target_positions, 'Market', market_env)

@@ -16,5 +16,5 @@ mom.run()
 mom.apply_gearing()
 
 #Read current positions (in lots) from file/DB
-
-create_orders(mom.geared_positions, pd.DataFrame(), trading_env, market_env, orders_date = date.today() - timedelta(days = 1))
+current_positions = pd.read_csv('/home/florian/Dropbox/Code/gemCore/positions.csv')
+create_orders(mom.geared_positions, current_positions, trading_env, market_env, orders_date = date.today() - timedelta(days = 1))

@@ -9,12 +9,13 @@ class MarketEnvironment:
 	currencies = pd.DataFrame()
 	currency_pairs = pd.DataFrame()
 	instruments = pd.DataFrame()
-	instrument_types = pd.DataFrame()
 	exchanges = pd.DataFrame()
 	futures = pd.DataFrame()
 	future_contracts = pd.DataFrame()
+	stocks = pd.DataFrame()
 	stock_data = pd.DataFrame()
 	feed_data = pd.DataFrame()
+	fx_forwards = pd.DataFrame()
 	fx_spot = pd.DataFrame()
 
 	@staticmethod

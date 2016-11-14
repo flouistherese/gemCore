@@ -4,7 +4,6 @@ import pandas as pd
 def apply_limits(positions, market_env, trading_env):
 	limited_positions = positions.copy()
 
-	pdb.set_trace()
 	limited_positions = apply_model_limits(limited_positions, trading_env)
 	limited_positions = apply_asset_limits(limited_positions, trading_env)
 	limited_positions = apply_sector_limits(limited_positions, market_env, trading_env)
@@ -31,7 +30,6 @@ def apply_asset_limits(positions, trading_env):
 	return positions
 
 def apply_sector_limits(positions, market_env, trading_env):
-	pdb.set_trace()
 	sector_limits = scale_limits_to_account(trading_env.sector_limits, trading_env.accounts)
 
 	limited_positions = positions.merge(market_env.instruments[['instrument', 'instrument_family']]).merge(market_env.instrument_families)
@@ -53,13 +51,13 @@ def apply_sector_limits(positions, market_env, trading_env):
 
 	return limited_positions.drop(['instrument_family', 'sector', 'limit_scaling'], axis = 1)
 
-
-
-	return positions
-
 def scale_limits_to_account(limits, accounts):
 	limits = limits.merge(accounts[['account', 'scaling']])
 	limits.ix[limits.limit_type == 'ABSOLUTE','scaling'] = 1.0
 	limits['limit'] = limits['limit'].astype('float64') * limits['scaling']
 	return limits.drop(['scaling','limit_type'], axis = 1)
 
+def round_positions(positions, trading_env):
+	rounded = positions.merge(trading_env.roundings)
+	rounded['position'] = ((rounded['position']/ rounded['rounding'].astype('float64')).round() * rounded['rounding'].astype('float64')).astype('int')
+	return rounded.drop('rounding', axis = 1)

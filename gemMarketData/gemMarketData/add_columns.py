@@ -32,7 +32,6 @@ def add_currency_column(x, market_env):
 
 
 def get_usd_currency_pair(currency, market_env):
-	pdb.set_trace()
 	if currency == 'USD':
 		return 'USDUSD'
 

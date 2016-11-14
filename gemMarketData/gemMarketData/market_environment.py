@@ -9,6 +9,7 @@ class MarketEnvironment:
 	currencies = pd.DataFrame()
 	currency_pairs = pd.DataFrame()
 	instruments = pd.DataFrame()
+	instrument_families = pd.DataFrame()
 	exchanges = pd.DataFrame()
 	futures = pd.DataFrame()
 	future_contracts = pd.DataFrame()

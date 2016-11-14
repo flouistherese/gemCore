@@ -35,7 +35,6 @@ def convert_units(x, to_unit, market_env):
 	
 	fx_rate = add_currency_column(x, market_env)
 	fx_rate['power'] = 1
-	pdb.set_trace()
 	fx_rate['currency_pair'] = fx_rate['currency'].apply(get_usd_currency_pair, args = (market_env,))
 	fx_rate['power'] = fx_rate.apply(lambda row: get_currency_inversion(row['currency'], row['currency_pair']), axis = 1)
 	fx_rate = pd.merge(fx_rate, last_prices, how = 'left', left_on = 'currency_pair', right_on = 'feed')

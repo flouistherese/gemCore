@@ -19,6 +19,7 @@ class TradingEnvironment:
 	model_limits = pd.DataFrame()
 	sector_limits = pd.DataFrame()
 	asset_limits = pd.DataFrame()
+	rounding = pd.DataFrame()
 
 	#Portfolio Tree
 	portfolio_weights = pd.DataFrame()

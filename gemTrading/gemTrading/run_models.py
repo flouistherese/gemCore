@@ -1,4 +1,4 @@
-from gemMarketData.market_environment import MarketEnvironment
+from gemMarketDataCore.market_environment import MarketEnvironment
 from gemTradingData.trading_environment import TradingEnvironment
 from gemTrading.momentum import Momentum
 from gemTrading.orders import *
@@ -16,7 +16,7 @@ mom.run()
 mom.apply_gearing()
 
 #Read current positions (in lots) from file/DB
-current_positions = pd.read_csv('/home/florian/Dropbox/Code/gemCore/positions.csv')
-orders = create_orders(mom.geared_positions, current_positions, trading_env, market_env, orders_date = date.today() - timedelta(days = 3))
+current_positions = pd.read_csv('~/python/gemCore/positions.csv')
+orders = create_orders(mom.geared_positions, current_positions, trading_env, market_env, orders_date = date.today() - timedelta(days = 1))
 
 #TODO: Order file generator

@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-setup(name='gemMarketData',
+setup(name='gemMarketDataCore',
       version='1.0',
       description='Market Data functions',
       author='Florian Louis-Therese',

@@ -30,6 +30,9 @@ def scale_positions_to_capital(positions, accounts):
 	return positions.drop('scaling', 1)
 
 def add_target_instruments(positions, target_instruments):
+	missing_models = set(positions['trading_model']) - set(target_instruments['trading_model'])
+	if(len(missing_models) > 0):
+		warnings.warn("No target instruments found for models " + ', '.join(missing_models))
 	return positions.merge(target_instruments)
 
 def calculate_orders(current_positions, target_positions):

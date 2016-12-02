@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from datetime import date
 from datetime import timedelta
-
+import warnings
 from gemTradingData.trading_environment import TradingEnvironment
 import pdb
 
@@ -16,7 +16,11 @@ class Momentum(Strategy):
 		strategies = trading_env.strategies[trading_env.strategies['strategy_type'] == self.strategy_type]['strategy'].tolist()
 		self.models = trading_env.trading_models[trading_env.trading_models['enabled'] & trading_env.trading_models['strategy'].isin(strategies)]['trading_model'].tolist()
 		self.model_feeds = trading_env.model_feeds[trading_env.model_feeds['trading_model'].isin(self.models)]
-		
+
+		##Warn when feeds cant be found for required models
+		missing_models = set(self.models) - set(self.model_feeds['trading_model'])
+		if(len(missing_models) > 0):
+			warnings.warn("No feed found for models " + ', '.join(missing_models))
 
 	def update_market_data(self, market_env, start_date = date.today() + timedelta(days = 365 * 25), end_date = date.today()):
 		pdb.set_trace()
@@ -27,6 +31,11 @@ class Momentum(Strategy):
 	def update_parameters(self,trading_env):
 		pdb.set_trace()
 		self.gearings = trading_env.extract_gearing()
+
+		##Warn when feeds cant be found for required models
+		missing_models = set(self.models) - set(self.gearings['trading_model'])
+		if(len(missing_models) > 0):
+			warnings.warn("No gearing found for models " + ', '.join(missing_models))
 
 	def run(self):
 		dates = self.price_data['date'].drop_duplicates().copy()

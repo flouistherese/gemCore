@@ -1,7 +1,13 @@
 import pandas as pd
 import pdb
+import logging
+
+logger = logging.getLogger('gem_logger')
 
 def add_currency_column(x, market_env):
+	if len(x) == 0:
+		logger.warning('Currency column cannot be added to empty DataFrame')
+		return x
 
 	if 'currency' in x.columns:
 		return x
@@ -27,7 +33,6 @@ def add_currency_column(x, market_env):
 			x_forward = x[x.instrument_type == it].merge(market_env.fx_forwards[['instrument', 'notional_currency']])[['instrument', 'notional_currency']]
 			x_forward.rename(columns={'notional_currency':'currency'}, inplace = True)
 			instrument_currency = pd.concat([instrument_currency, x_forward])
-
 	return x.merge(instrument_currency)
 
 

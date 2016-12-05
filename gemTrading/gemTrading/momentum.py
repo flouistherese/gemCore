@@ -12,7 +12,6 @@ class Momentum(Strategy):
 
 	def __init__(self, market_env, trading_env):
 		self.strategy_type = 'MOMENTUM'
-		pdb.set_trace()
 		strategies = trading_env.strategies[trading_env.strategies['strategy_type'] == self.strategy_type]['strategy'].tolist()
 		self.models = trading_env.trading_models[trading_env.trading_models['enabled'] & trading_env.trading_models['strategy'].isin(strategies)]['trading_model'].tolist()
 		self.model_feeds = trading_env.model_feeds[trading_env.model_feeds['trading_model'].isin(self.models)]
@@ -23,16 +22,14 @@ class Momentum(Strategy):
 			warnings.warn("No feed found for models " + ', '.join(missing_models))
 
 	def update_market_data(self, market_env, start_date = date.today() + timedelta(days = 365 * 25), end_date = date.today()):
-		pdb.set_trace()
 		feed_data = market_env.feed_data[market_env.feed_data['feed'].isin(self.model_feeds['feed'])]
 		fx_data = market_env.fx_spot[market_env.fx_spot['feed'].isin(self.model_feeds['feed'])]
 		self.price_data = pd.concat([feed_data, fx_data])
 
 	def update_parameters(self,trading_env):
-		pdb.set_trace()
 		self.gearings = trading_env.extract_gearing()
 
-		##Warn when feeds cant be found for required models
+		##Warn when gearing cant be found for required models
 		missing_models = set(self.models) - set(self.gearings['trading_model'])
 		if(len(missing_models) > 0):
 			warnings.warn("No gearing found for models " + ', '.join(missing_models))
@@ -66,7 +63,6 @@ class Momentum(Strategy):
 		raw_positions4['position'] = pd.Series(np.random.randn(len(raw_positions4))) * 100
 
 		self.raw_positions = pd.concat([raw_positions1, raw_positions2, raw_positions3, raw_positions4])
-		pdb.set_trace()
 
 
 

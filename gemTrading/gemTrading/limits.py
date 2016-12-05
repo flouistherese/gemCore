@@ -1,5 +1,8 @@
 import pdb
 import pandas as pd
+import logging 
+
+logger = logging.getLogger('gem_logger')
 
 def apply_limits(positions, market_env, trading_env):
 	limited_positions = positions.copy()
@@ -12,6 +15,7 @@ def apply_limits(positions, market_env, trading_env):
 
 def apply_model_limits(positions, trading_env):
 	if len(trading_env.model_limits) == 0:
+		logger.info('No model limits found')
 		return positions
 	
 	model_limits = scale_limits_to_account(trading_env.model_limits, trading_env.accounts)
@@ -27,9 +31,14 @@ def apply_model_limits(positions, trading_env):
 	return limited_positions.drop(['side', 'limit'], axis = 1)
 
 def apply_asset_limits(positions, trading_env):
+	logger.info('Asset limits not implemented')
 	return positions
 
 def apply_sector_limits(positions, market_env, trading_env):
+	if len(trading_env.sector_limits) == 0:
+		logger.info('No sector limits found')
+		return positions
+
 	sector_limits = scale_limits_to_account(trading_env.sector_limits, trading_env.accounts)
 
 	limited_positions = positions.merge(market_env.instruments[['instrument', 'instrument_family']]).merge(market_env.instrument_families)
